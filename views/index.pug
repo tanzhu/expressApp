@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+
+
+  p
+    | 如果我不用嵌入功能来书写，一些标签比如
+    strong strong
+    | 和
+    em em
+    | 可能会产生意外的结果。
+  p.
+    如果用了嵌入，在 #[strong strong] 和 #[em em] 旁的空格就会让我舒服多了。

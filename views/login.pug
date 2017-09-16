@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    div.header.container
+        p.h1.col-xs-12.title 欢迎
+    div.main.container
+        div.left-side.col-xs-9
+            p
+                | 欢迎
+        div.right-side.col-xs-3
+            form
+                div.form-group
+                    label(for ='userid')  用户名
+                    input#userid.col-sm-12.form-control(type = 'text')
+                div.form-group
+                    label(for ='password')  密码
+                    input#password.col-sm-12.form-control(type = 'password')
+                div.form-group
+                button#submit.col-sm-3.btn.btn-default(type = 'submit') 提交
