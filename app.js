@@ -4,12 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 
 var app = express();
+
+var db = require('../public/data/db')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,9 +22,17 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({extended: false,limit: '5mb'}));
 app.use(cookieParser());
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: 'yourSecretKey',
+  cookie: {maxAge: 30 * 24 * 3600 * 1000},
+  store: new MongoStore({mongooseConnection: db})
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
