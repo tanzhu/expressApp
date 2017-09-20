@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var userlist = require('../public/data/getpic')
+var userlist = require('../public/data/user.json')
 
 
 router.get('/', function (req, res, next) {

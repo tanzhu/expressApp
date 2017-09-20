@@ -1,0 +1,14 @@
+extends layout
+    
+block content
+    script(src='/javascript/reptile.js')
+    div.main-frame
+        div.container-fluid
+            div.urlrow.row.col-lg-12
+                div.col-lg-10
+                    label.col-xs-1(for ='url')  Url : 
+                    input#url.col-xs-11(type = 'text', value='http://www.192tt.com/gq') 
+                div.col-lg-2
+                    button#fetch.col-lg-11.btn.btn-default 获取
+        div.container-fluid.btnList
+            button#subC.btn.btn-primary(display='none')

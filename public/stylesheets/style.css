@@ -1,5 +1,5 @@
 body {
-
+  position: relative;
 }
 
 a {
@@ -14,10 +14,21 @@ a {
   color: #FFFFFF;
 }
 
-.main {
+.main-frame {
   margin-top: 10px;
 }
 
 .form-group {
-  padding-top: 50px;
+  padding-top: 5px;
+}
+
+.urlrow {
+  display: flex;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#subC {
+  display: none;
 }
