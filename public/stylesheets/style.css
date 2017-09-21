@@ -29,6 +29,15 @@ a {
   margin-right: 10px;
 }
 
-#subC {
+#btnList {
+  position: relative;
+  margin-top: 20px;
+}
+
+.subC {
   display: none;
+}
+
+.subD {
+  margin: 20px;
 }

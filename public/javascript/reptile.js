@@ -3,6 +3,7 @@ $(function(){
 
 
     $('#fetch').click(function(e){
+        $('#btnList').html();
         var data = {};
         data.url = $("#url").val();
         $.ajax({
@@ -12,19 +13,34 @@ $(function(){
             url: './reptile',	
             datetype: 'json',					
             success: function(data) {
-                var btn = $("#subC");
-                var btnList = $('#btnList');
-                var htmlList = '';
-                for(var item in data.itemList){
-                    var newBtn = btn;
-                    newBtn.removeClass("subC");
-                    htmlList += newBtn.html(); 
-                }
-                btnList.html(btn);
+                showButtonList(data.itemList);
             },
             error: function(error) {
                 console.log('error');
             }
         });
     });
+
+    $("#btnList").delegate(".subD", "click", function() { 
+        var name = $(this).html();
+        var url  = $(this).attr("data-url");
+        window.location.href = "./detail?name=" + encodeURI(name) + "&url=" + encodeURI(url);
+        
+    });
 });	
+
+function showButtonList(itemList){
+    var btn = $(".subC").clone();
+    var htmlList = '';
+    for(var i = 0; i < itemList.length; i++){
+        var item = itemList[i];
+        var newBtn = btn;
+        newBtn.removeClass("subC");
+        newBtn.removeAttr("display");
+        newBtn.html(item.name);
+        newBtn.attr("data-url", item.url)
+        newBtn.addClass("subD")
+        htmlList += newBtn.prop("outerHTML");
+    }
+    $('#btnList').html(htmlList);
+}

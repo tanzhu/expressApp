@@ -61,10 +61,39 @@ router.post('/', function(req, res, next) {
         }
       });
       if(itemList.length > 0){
-        var ajaxTest = {"itemList": itemList}
-        res.send(ajaxTest);
+        that.itemList = itemList;
+      }
+      else {
+
       }
     },
+    itemList: function(itemList){
+      var that = this;
+      var returnList= [];
+      //check 和 save
+      fs.readFile("./public/data/category_list.json", "utf8", function(err, data){
+        if(err) throw err;
+        returnList = JSON.parse(data);
+        for(var i=0; i<itemList.length; i++){
+          var item = itemList[i];
+          if(returnList[item.name]){
+            var category = returnList[item.name];
+            if(category.url != item.url){
+              category.url = item.url
+              returnList[item.name] = category;
+            }
+          }
+          else {
+            var name = item.name;
+            returnList.push(item);
+          }
+        }
+        fs.unlinkSync("./public/data/category_list.json");
+        fs.writeFileSync("./public/data/category_list.json", JSON.stringify(returnList));
+        var data = {"itemList": itemList};
+        res.send(data);
+      });
+    }
   });
 
   fetch.url = fetchUrl;
