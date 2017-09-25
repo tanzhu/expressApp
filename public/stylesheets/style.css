@@ -29,6 +29,10 @@ a {
   margin-right: 10px;
 }
 
+.login {
+  text-align: right;
+}
+
 #btnList {
   position: relative;
   margin-top: 20px;

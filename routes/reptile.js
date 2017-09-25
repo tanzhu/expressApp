@@ -90,9 +90,9 @@ router.post('/', function(req, res, next) {
         }
         fs.unlinkSync("./public/data/category_list.json");
         fs.writeFileSync("./public/data/category_list.json", JSON.stringify(returnList));
-        var data = {"itemList": itemList};
-        res.send(data);
       });
+      var data = {"itemList": itemList};
+      res.send(data);
     }
   });
 

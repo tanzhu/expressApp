@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(session({
   resave: false,
   saveUninitialized: false,
-  secret: 'yourSecretKey',
+  secret: 'tz',
   cookie: {maxAge: 30 * 24 * 3600 * 1000},
   // store: new MongoStore({mongooseConnection: db})
 }));
