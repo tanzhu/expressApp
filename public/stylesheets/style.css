@@ -31,6 +31,8 @@ a {
 
 .login {
   text-align: right;
+  position: absolute;
+  bottom: 1px;
 }
 
 #btnList {
@@ -44,4 +46,9 @@ a {
 
 .subD {
   margin: 20px;
+}
+
+.err {
+  font-size: 16px;
+  color: red;
 }

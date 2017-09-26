@@ -4,25 +4,34 @@ var router = express.Router();
 
 
 router.get('/', function (req, res, next) {
-  console.log('user');
-  res.render('login');
+  if(req.param('action') === 'logout'){
+    delete req.session.loginUser;
+    delete res.locals.loginUser;
+  }
+  
+  // if(req.param.action)
+  res.render('login', {err:""});
 });
 
-
 router.post('/', function(req, res, next) {  
-  var _user = new User(req.body.data);
-  User.findOne({username: _user.username}, function (err, user_a) {
-    if (err) res.json(err.status|| 500, {"errorMsg":err.message});
-      user_a.comparePwd(_user.password,function(err_b,isMatch){
-        if(err) res.json(err_b.message||500, {"errorMsg":err_b.message})
-        else if(isMatch){
-          req.session.user_session= user_a;
-          res.json({"data":{"usernamename":user_a.username,"_id":user_a._id}})
-        }
-        else  res.json(500, {"errorMsg": "用户名或密码错误"})
-      })
+  var username = req.body.username;
+  var password = req.body.password;
 
-  })
+  var db = req.db;
+  var collection = db.get('users');
+  collection.find({"username":username,"password":password},function(e,docs){
+      console.log(docs);
+      if(docs.length > 0){
+        var loginUser = docs[0];
+        delete loginUser.password;
+        req.session.loginUser = loginUser;
+        res.redirect('index');
+      }
+      else {
+        res.render('login', {err:"用户名或密码不正确"});
+      }
+  });
+
 });
 
 

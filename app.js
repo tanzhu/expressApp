@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var mongo = require('mongodb');
+var monk = require('monk');
 
 var index = require('./routes/index');
 var login = require('./routes/login');
@@ -14,11 +15,15 @@ var detail = require('./routes/detail');
 
 var app = express();
 
-// var db = require('../public/data/db')
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+//connect to db
+var db = monk('localhost:27017/getpic');
+db.then(() => {
+  console.log('正确的连接到了服务')
+})
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -27,16 +32,29 @@ app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({extended: false,limit: '5mb'}));
 app.use(cookieParser());
 app.use(session({
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   secret: 'tz',
   cookie: {maxAge: 30 * 24 * 3600 * 1000},
-  // store: new MongoStore({mongooseConnection: db})
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
+
+app.use(function (req, res, next) {
+  var url = req.originalUrl;
+  if (url != "/login" && !req.session.loginUser) {
+      return res.redirect("/login");
+  }
+  res.locals.loginUser = req.session.loginUser;
+  next();
+});
+
+app.use('/index', index);
 app.use('/login', login);
 app.use('/reptile', reptile);
 app.use('/detail', detail);

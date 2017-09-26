@@ -1,15 +1,24 @@
 doctype html
 html
   head
+    meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
     title= title
     link(rel='stylesheet', href='/javascript/bootstrap-3.3.7/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='http://code.jquery.com/jquery-1.6.2.min.js')
   body
+    - var username = loginUser?loginUser.username:"John Doe"
     block header
       div.header
         div.container-fluid
-          p.h1.col-sm-11.title 欢迎
-          p.col-sm-1.login.h4
-            a(href="/login") 登录
+          .row(style="display: flex")
+            div.col-sm-11
+              p.h1.title 欢迎 #{username}
+            div.col-sm-1
+              if !loginUser
+                p.login.h4
+                  a(href="/login") 登录
+              else 
+                p.login.h4
+                  a(href="/login?action=logout") 登出
     block content
