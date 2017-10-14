@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mongo = require('mongodb');
-var monk = require('monk');
+// var monk = require('monk');
+
 
 var index = require('./routes/index');
 var login = require('./routes/login');
@@ -20,10 +21,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 //connect to db
-var db = monk('localhost:27017/getpic');
-db.then(() => {
-  console.log('正确的连接到了服务')
-})
+// var db = monk('localhost:27017/getpic');
+// db.then(() => {
+//   console.log('正确的连接到了服务')
+// })
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -40,10 +41,10 @@ app.use(session({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req,res,next){
-  req.db = db;
-  next();
-});
+// app.use(function(req,res,next){
+//   req.db = db;
+//   next();
+// });
 
 app.use(function (req, res, next) {
   var url = req.originalUrl;
